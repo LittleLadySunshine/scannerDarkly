@@ -1,3 +1,29 @@
-<p>
-  scan-detail works!
-</p>
+<div *ngIf="scan">
+
+  <h2>{{ scan.name }} Details</h2>
+  <p>Name: <input type="text" [(ngModel)]="scan.name" readonly="{{isReadonly()}}"></p>
+  <p>ID: <input type="text" [(ngModel)]="scan.id" readonly="readonly"></p>
+  <p>Profile:
+    <select [(ngModel)]="scan.profile" [disabled]="readonly">
+      <option *ngFor="let p of profiles" [value]="p.id">{{p.name}}</option>
+    </select>
+  </p>
+  <fieldset class="targets">
+    <legend>Target</legend>
+    <p><textarea class="noscrollbars" (change)="targetsChange($event)" readonly="{{isReadonly()}}">{{formatTargets()}}</textarea></p>
+  </fieldset>
+<!--  <p>W3AF Status: {{scan.status.w3af}}</p> -->
+<!--  <p>HTTP Observatory Status: {{scan.status.http_obs}}</p>-->
+  <p>Results:
+  <ul class="results">
+    <li *ngFor="let result of scan.results">
+      <a routerLink="/report/{{result}}">{{result}}
+      </a>
+    </li>
+  </ul>
+  <p>Created: {{scan.creation_time}}</p>
+  <button *ngIf="!create" (click)="editScan()" [style.background-color]="isReadonly() ? '#eee' : '#9ccc98'">Edit</button>
+  <button (click)="deleteScan()">Delete</button>
+  <button (click)="saveScan()">Save</button>
+  <button (click)="startScan(scan.id)">Start</button>
+</div>

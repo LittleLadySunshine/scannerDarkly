@@ -1,3 +1,94 @@
-<p>
-  report works!
-</p>
+<div *ngIf="result">
+  <div class="container">
+    <h1>
+      Website Security Summary for {{ result.target }}
+    </h1>
+    This report has been automatically generated using a number of security assessment scanners. With this report we
+    intend to inventory the software running on your server so that we may build an appropriate security policy, and to
+    also highlight areas for imcreased security using best practices.
+
+    <h3>
+      Metadata
+    </h3>
+    <p>
+      W3AF Status: {{result.w3af.status}}<br/>
+      HTTP Obs Status: {{result.http_obs.status}}<br/>
+      Start time: {{result.start_time}}<br/>
+      End time: {{result.end_time}}<br/>
+      Target: {{ result.target }}
+    </p>
+
+    <div class="row">
+      <div class="col">
+        <h2>
+          HTTP Security Header Checks: {{ result.target }}
+        </h2>
+      </div>
+    </div>
+
+    This summary indicates how extensive your site utilizes HTTP security actions to improve the client and server
+    interaction.
+
+    <div class="row">
+      <div class="col" style="background-color:#9DFCAF">Passed: {{ hpasses() }}</div>
+      <div class="col" style="background-color:#FF8D85">Failed: {{ hfailures() }}</div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <h2>
+          Server Information and Vulnerability Summary
+        </h2>
+      </div>
+    </div>
+
+    This section summarizes the vulnerabilities and information found out about your website. The purpose of this scan
+    is largely to determine what software the server runs and is not a full security assessment. Findings are grouped by
+    their severity - high, medium, low, or informational.
+
+    <div class="row">
+      <div *ngFor="let cat of ['High','Medium','Low','Information']" class="col" [ngStyle]="{'background-color':this.colors[cat],'text-align':'center'}">
+        <font size="+20">{{ this.aggFindings[cat] }}</font><br/>{{ cat}}
+      </div>
+    </div>
+
+    <div class="w3afItems" *ngFor="let w of result.w3af.results" [style.background-color]="this.colors[w.severity]">
+        <div class="name">Name: {{ w.name }}</div>
+        <div>Severity: {{w.severity}}</div>
+        Description: {{ w.desc }}<br/>
+        Long Description: {{w.long_description}}<br/>
+        Fix Effort: {{w.fix_effort}}<br/>
+        Fix Guidance: {{w.fix_guidance}}<br/>
+        Highlight: {{w.highlight}}<br/>
+        ID: {{w.id}}<br/>
+        OWASP Top 10: {{w.owasp_top_10_references}}<br/>
+        Plugin Name: {{w.plugin_name}}<br/>
+        Response IDs: {{w.response_ids}}<br/>
+        Unique ID: {{w.uniq_id}}<br/>
+        URL: {{w.url}}<br/>
+        URLs: {{w.urls}}<br/>
+        Var: {{w.var}}<br/>
+        VulnDBID: {{w.vulndb_id}}<br/>
+        WASC IDs: {{w.wasc_ids}}<br/>
+        WASC URLs: {{w.wasc_urls}}<br/>
+        CWE IDs: {{w.cwe_ids}}<br/>
+        CWE URLs: {{w.cwe_urls}}<br/>
+        Tags: {{w.tags}}<br/>
+        References: {{w.references}}<br/>
+        Attributes: {{w.attributes|json}}
+    </div>
+    <h1>
+      Mozilla HTTP Observatory Findings
+    </h1>
+    <div>
+      <div class="httpObsItems" *ngFor="let k of result.http_obs.results | mapToIterable" [style.background-color]="result.http_obs.results[k.key]['pass'] ? '#9DFCAF' : '#FF8D85'">
+        <div class="name">{{ result.http_obs.results[k.key]['name'] | uppercase }} </div>
+          Output: {{ result.http_obs.results[k.key]['output'] | json }}<br/>
+          Expectation: {{ result.http_obs.results[k.key]['expectation'] }}<br/>
+          Pass: {{ result.http_obs.results[k.key]['pass'] }}<br/>
+          Result: {{ result.http_obs.results[k.key]['result'] }}<br/>
+          Score Description: {{ result.http_obs.results[k.key]['score_description'] }}<br/>
+          Score Modifier: {{ result.http_obs.results[k.key]['score_modifier'] }}
+      </div>
+    </div>
+  </div>
+</div>

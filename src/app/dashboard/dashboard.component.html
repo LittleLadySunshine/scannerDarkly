@@ -1,3 +1,11 @@
-<p>
-  dashboard works!
-</p>
+<h3>Top Scans</h3>
+<div class="grid grid-pad">
+  <a *ngFor="let scan of scans" class="col-1-4" routerLink="/scan/{{scan.name}}">
+    <div class="module scan">
+      <h4>{{scan.name}}</h4>
+    </div>
+  </a>
+</div>
+<div *ngFor="let scan of scans">
+  {{ status.scans[scan.id].http_obs_status }}
+</div>

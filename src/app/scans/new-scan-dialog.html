@@ -1,0 +1,29 @@
+<h2>{{ editing ? 'Edit Scan' : 'New Scan'}}</h2>
+<div>
+<form>
+  <span [ngStyle]="{'display':'block'}">
+  <mat-form-field [ngStyle]="{'width':'100%'}">
+    <input matInput name="name" placeholder="Scan Name" [(ngModel)]="scan.name">
+  </mat-form-field>
+  </span>
+
+  <span [ngStyle]="{'display':'block'}">
+  <mat-form-field [ngStyle]="{'width':'100%'}">
+    <input matInput name="target" placeholder="Target" [(ngModel)]="scan.target">
+  </mat-form-field>
+  </span>
+
+  <span [ngStyle]="{'display':'block'}">
+  <mat-form-field [ngStyle]="{'width':'75%'}">
+    <mat-select name="profile" placeholder="Profile" [(ngModel)]="scan.profile">
+      <mat-option *ngFor="let p of profiles" [value]="p.id">{{p.name}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <button mat-raised-button (click)="newProfile()" [ngStyle]="{'float':'right'}">New</button>
+  </span>
+
+  <span [ngStyle]="{'display':'block'}">
+    <button mat-raised-button (click)="saveScan()" [disabled]="!canCreate()">{{ editing ? 'Save' : 'Create'}}</button>
+  </span>
+</form>
+</div>

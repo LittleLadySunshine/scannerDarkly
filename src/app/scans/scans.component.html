@@ -1,3 +1,53 @@
-<p>
-  scans works!
-</p>
+<div class="scans">
+<mat-list>
+  <div class="scan" *ngFor="let scan of scans">
+    <mat-list-item>
+      <span class="scan-name">{{scan.name}}</span>
+      <span class="scan-target">{{scan.target}}</span>
+      <span class="scan-actions">
+        <button mat-raised-button (click)="viewScan(scan.id)">{{ showScan[scan.id] ? 'Hide' : 'View' }}</button>
+        <button mat-raised-button (click)="startScan(scan.id)">Start</button>
+      </span>
+    </mat-list-item>
+    <div *ngIf="showScan[scan.id]">
+      <div class="view-content">
+        <span *ngIf="profiles">Profile: <button mat-flat-button (click)="viewProfile(scan.profile)">{{getProfileName(scan.profile)}}</button><br/></span>
+
+        Results:
+        <div *ngFor="let r of scan.results">
+          <div  *ngIf="status.scans[scan.id] && status.scans[scan.id][r]">
+          <button mat-icon-button color="warn" (click)="deleteResult(r)"><mat-icon>clear</mat-icon></button>
+          <span class="view-result-since">{{ timeSince[r] }}</span>
+
+            <span class="view-result-w3af">
+              W3AF
+              <button mat-icon-button [title]="status.scans[scan.id][r].w3af_status">
+                <mat-icon>{{ statusIcon(status.scans[scan.id][r].w3af_status) }}</mat-icon>
+              </button>
+            </span>
+            <span class="view-result-http_obs">
+              HTTP Obs
+              <button mat-icon-button [title]="status.scans[scan.id][r].http_obs_status">
+                <mat-icon>{{ statusIcon(status.scans[scan.id][r].http_obs_status) }}</mat-icon>
+              </button>
+            </span>
+
+            <!--<button mat-icon-button color="accent">{{status.scans[scan.id][r].w3af_status}}</button>
+            <button mat-icon-button color="accent" disabled>{{status.scans[scan.id][r].http_obs_status}}</button>-->
+            <button mat-flat-button (click)="viewResult(r)">View Report</button>
+          <mat-progress-bar *ngIf="progressBarMode(scan.id, r)" mode="indeterminate"></mat-progress-bar>
+          </div>
+        </div>
+      </div>
+      <div class="view-actions">
+        <button mat-raised-button (click)="editScan(scan.id)">Edit</button>
+        <button mat-raised-button (click)="deleteScan(scan.id)">Delete</button>
+      </div>
+    </div>
+    <mat-divider></mat-divider>
+  </div>
+</mat-list>
+  <div class="fab-button">
+    <button mat-fab color="accent" (click)="newScan()"><mat-icon>add</mat-icon></button>
+  </div>
+</div>

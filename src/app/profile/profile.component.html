@@ -1,3 +1,29 @@
-<p>
-  profile works!
-</p>
+<div class="profiles" *ngIf="profiles">
+  <mat-list>
+    <div class="profile" *ngFor="let p of profiles">
+      <mat-list-item>
+        <span class="profile-name">{{p.name}}</span>
+        <span class="profile-httpobs">Http Obs: <mat-checkbox [disabled]="true" [checked]="p.http_obs.enabled"></mat-checkbox></span>
+        <span class="profile-w3af">W3AF: <mat-checkbox [disabled]="true" [checked]="p.w3af.enabled"></mat-checkbox></span>
+        <span class="profile-actions">
+        <button mat-raised-button (click)="viewProfile(p.id)">{{ showProfile[p.id] ? 'Hide' : 'View' }}</button>
+      </span>
+      </mat-list-item>
+      <div *ngIf="showProfile[p.id]">
+        <div class="view-profile">
+          <mat-form-field [ngStyle]="{'width':'100%', 'height':'100%'}" floatLabel="never">
+            <textarea matInput [disabled]="!p.w3af.enabled" [rows]=20>{{ formatProfile(p.w3af.profile) }}</textarea>
+          </mat-form-field>
+        </div>
+        <div class="view-actions">
+          <button mat-raised-button (click)="editProfile(p.id)">Edit</button>
+          <button mat-raised-button (click)="deleteProfile(p.id)">Delete</button>
+        </div>
+      </div>
+      <mat-divider></mat-divider>
+    </div>
+  </mat-list>
+  <div class="fab-button">
+    <button mat-fab color="accent" (click)="newProfile()"><mat-icon>add</mat-icon></button>
+  </div>
+</div>

@@ -1,0 +1,77 @@
+<h2>{{ editing ? 'Edit Profile' : 'New Profile'}}</h2>
+<div>
+  <form>
+  <span [ngStyle]="{'display':'block'}">
+  <mat-form-field [ngStyle]="{'width':'100%'}">
+    <input matInput name="name" placeholder="Profile Name" [(ngModel)]="profile.name" required>
+    <mat-error *ngIf="!profile.name">enter name</mat-error>
+  </mat-form-field>
+  </span>
+
+    <div>
+      <mat-checkbox name="http_obs_enable" [(ngModel)]="profile.http_obs.enabled" labelPosition="before">HTTP Obs
+      </mat-checkbox>
+      <br/>
+    </div>
+    <div class="http_obs" [ngStyle]="{'padding-left':'20px','padding-bottom':'20px'}">
+      <div>
+        <mat-form-field>
+          <mat-label>HTTP Port</mat-label>
+          <input matInput name="http_port" placeholder="80" [(ngModel)]="profile.http_obs.http_port"
+                 [disabled]="!profile.http_obs.enabled">
+        </mat-form-field>
+        <mat-form-field [ngStyle]="{'padding-left':'20px'}">
+          <mat-label>HTTPS Port</mat-label>
+          <input matInput name="https_port" placeholder="443" [(ngModel)]="profile.http_obs.https_port"
+                 [disabled]="!profile.http_obs.enabled">
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field>
+          <mat-label>Path</mat-label>
+          <input matInput name="path" placeholder="/" [(ngModel)]="profile.http_obs.path"
+                 [disabled]="!profile.http_obs.enabled">
+        </mat-form-field>
+        <span [ngStyle]="{'padding-left':'20px'}">
+            <mat-checkbox name="http_obs_verify" [(ngModel)]="profile.http_obs.verify" labelPosition="before"
+                          [disabled]="!profile.http_obs.enabled">Verify Certificate</mat-checkbox>
+        </span>
+      </div>
+      <div [ngStyle]="{'padding-right':'20px'}">
+        <mat-form-field [ngStyle]="{'width':'100%', 'height':'100%'}">
+          <mat-label>Headers</mat-label>
+          <textarea matInput placeholder="Headers" (change)="headersChange($event)"
+                [disabled]="!profile.http_obs.enabled"
+                [rows]=2>{{formatHeaders()}}</textarea>
+          <mat-hint>format: key:value</mat-hint>
+        </mat-form-field>
+      </div>
+      <div [ngStyle]="{'padding-right':'20px'}">
+        <mat-form-field [ngStyle]="{'width':'100%', 'height':'100%'}">
+          <mat-label>Cookies</mat-label>
+          <textarea matInput (change)="cookiesChange($event)"
+                [disabled]="!profile.http_obs.enabled"
+                [rows]=2>{{formatCookies()}}</textarea>
+          <mat-hint>format: key:value</mat-hint>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div>
+      <mat-checkbox name="w3af" [(ngModel)]="profile.w3af.enabled" labelPosition="before">W3AF</mat-checkbox>
+    </div>
+
+    <div [ngStyle]="{'padding-left':'20px','padding-right':'20px'}">
+      <mat-form-field [ngStyle]="{'width':'100%', 'height':'100%'}" floatLabel="never">
+      <textarea matInput placeholder="w3af profile" (change)="profileChange($event)" [disabled]="!profile.w3af.enabled"
+                [rows]=10 required>{{formatProfile()}}</textarea>
+        <mat-error *ngIf="!profile.w3af.profile">enter profile</mat-error>
+      </mat-form-field>
+    </div>
+
+    <span [ngStyle]="{'display':'block'}">
+    <button mat-raised-button (click)="saveProfile()"
+            [disabled]="!canCreate()">{{ editing ? 'Save' : 'Create'}}</button>
+  </span>
+  </form>
+</div>
