@@ -1,0 +1,25 @@
+/*@import url("https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css");*/
+
+.container {
+  width: 40em;
+}
+
+div.w3afItems {
+  top: 20px;
+  border-style: solid;
+  border-width: 2px;
+}
+
+.w3afItems div.name {
+  font-size: 20px;
+}
+
+div.httpObsItems {
+  top: 20px;
+  border-style: solid;
+  border-width: 2px;
+}
+
+.httpObsItems div.name {
+  font-size: 20px;
+}

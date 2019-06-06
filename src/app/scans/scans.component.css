@@ -1,0 +1,46 @@
+.scans {
+  margin: 1em 0 2em 0;
+}
+
+.scan {
+  margin: 0 0 0 0;
+  padding-right: 5em;
+  width: 50em;
+}
+
+.scan-name {
+  width: 10em;
+}
+
+.scan-target {
+  font-size: small;
+/*  width: 17em;*/
+}
+
+.scan-actions {
+  position: absolute;
+  right: 0;
+}
+
+.fab-button {
+  padding-top: 1em;
+  padding-left: 1em;
+}
+
+.view-content {
+  padding-left: 10px;
+}
+
+.view-actions {
+  text-align: right;
+  padding-bottom: 7px;
+}
+
+.view-result-since {
+  width: 10em;
+  display: inline-block;
+}
+
+.view-result-reportlink {
+  color: rgba(255, 255, 255, 0.91);
+}
